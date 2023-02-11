@@ -1,0 +1,19 @@
+# Start with base image
+FROM node:16-alpine
+
+# Set user that will run commands
+USER node
+
+# Set working directory
+RUN mkdir -p /home/node/app
+WORKDIR '/home/node/app'
+
+# Install dependencies and set node user as the owner
+COPY --chown=node:node ./package.json ./
+RUN npm install
+
+# Copy project and set node user as the owner
+COPY --chown=node:node ./ ./
+
+# Build React app
+CMD ["npm", "run", "start"]
